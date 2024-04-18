@@ -24,5 +24,19 @@ Up to: https://go.dev/doc/tutorial/add-a-test
         - Connecting to a DB
         - Multi-row and single-row queries
         - Adding data
+Up to: https://go.dev/doc/tutorial/web-service-gin
 
-
+### 18/04/24
+- Directions created/used:
+    - `web-service-gin`: web service with Gin
+    - `generics`: generics in Go
+    - `fuzz`: fuzzing in Go
+- Covered:
+    - Creating a basic REST API using Gin
+        - Basic GET and POST requests
+    - Go generics
+        - Non-generic functions
+        - Generic functions taking multiple types
+        - Type constraints
+    - Fuzzing
+        - Writing and running fuzz tests
