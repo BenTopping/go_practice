@@ -40,3 +40,11 @@ Up to: https://go.dev/doc/tutorial/web-service-gin
         - Type constraints
     - Fuzzing
         - Writing and running fuzz tests
+Up to: https://go.dev/doc/tutorial/govulncheck
+
+### 25/04/24
+- Directories created/used
+    - `vuln-tutorial`: vulnerability checking in Go
+- Covered:
+    - Checking for vulnerabilities in Go code
+        - Using `govulncheck`
