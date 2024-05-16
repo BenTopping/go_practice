@@ -8,8 +8,13 @@ import (
 func Handler(r *chi.Mux) {
 	r.Use(chimiddle.StripSlashes)
 
-	r.Route("/barcodes_group", func(r chi.Router) {
+	r.Route("/barcode_groups", func(r chi.Router) {
 
-		r.Get("/barcode", GetBarcode)
+		r.Get("/", GetBarcodeGroups)
+
+		r.Route("/{barcodeGroup}", func(r chi.Router) {
+			r.Get("/", GetBarcode)
+			r.Get("/new", CreateBarcode)
+		})
 	})
 }

@@ -1,9 +1,9 @@
 package handlers
 
 import (
-	"net/http"
 	"encoding/json"
 	"fmt"
+	"net/http"
 
 	"github.com/BenTopping/go_practice/baragoda/api"
 	"github.com/BenTopping/go_practice/baragoda/internal/tools"
@@ -11,7 +11,7 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-func GetBarcode(w http.ResponseWriter, r *http.Request) {
+func CreateBarcode(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	barcodeGroupParam := chi.URLParam(r, "barcodeGroup")
@@ -28,16 +28,17 @@ func GetBarcode(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var barcodeGroup *tools.BarcodeGroup = (*database).GetBarcodeGroup(barcodeGroupParam)
+	var barcodeGroup *tools.BarcodeGroup = (*database).CreateBarcode(barcodeGroupParam)
 	if barcodeGroup == nil {
 		api.NotFoundErrorHandler(w, fmt.Errorf("barcode group %s not found", barcodeGroupParam))
 		return
 	}
 
-	var response = api.BarcodeGroupResponse{
+	var combinedBarcode string = fmt.Sprintf("%s-%d", (*barcodeGroup).Barcode, (*barcodeGroup).Sequence)
+
+	var response = api.CreateBarcodeResponse{
 		Code: http.StatusOK,
-		Barcode: (*barcodeGroup).Barcode,
-		Sequence: (*barcodeGroup).Sequence,
+		Barcode: combinedBarcode,
 	}
 
 	w.Header().Set("Content-Type", "application/json")

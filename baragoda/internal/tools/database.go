@@ -4,13 +4,15 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-type BarcodeSequence struct {
+type BarcodeGroup struct {
 	Barcode string
 	Sequence int
 }
 
 type DatabaseInterface interface {
-	GetBarcodeSequence(barcode string) *BarcodeSequence
+	GetBarcodeGroups() *[]BarcodeGroup
+	GetBarcodeGroup(barcode string) *BarcodeGroup
+	CreateBarcode(barcode string) *BarcodeGroup
 	SetupDatabase() error
 }
 

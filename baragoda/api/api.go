@@ -3,15 +3,28 @@ package api
 import (
 	"net/http"
 	"encoding/json"
+
+	"github.com/BenTopping/go_practice/baragoda/internal/tools"
 )
 
 type BarcodeParams struct {
 	Barcode string
 }
 
-type BarcodeResponse struct {
+type CreateBarcodeResponse struct {
 	Code int
 	Barcode string
+}
+
+type BarcodeGroupResponse struct {
+	Code int
+	Barcode string
+	Sequence int
+}
+
+type BarcodeGroupsResponse struct {
+	Code int
+	BarcodeGroups []tools.BarcodeGroup
 }
 
 type Error struct {
@@ -34,6 +47,9 @@ func writeError(w http.ResponseWriter, message string, code int,) {
 var (
 	RequestErrorHandler = func(w http.ResponseWriter, err error) {
 		writeError(w, err.Error(), http.StatusBadRequest)
+	}
+	NotFoundErrorHandler = func(w http.ResponseWriter, err error) {
+		writeError(w, err.Error(), http.StatusNotFound)
 	}
 	InternalErrorHandler = func(w http.ResponseWriter) {
 		writeError(w, "An Unexpected Error Occured.", http.StatusInternalServerError)
