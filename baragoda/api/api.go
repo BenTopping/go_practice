@@ -18,7 +18,7 @@ type CreateBarcodeResponse struct {
 
 type BarcodeGroupResponse struct {
 	Code int
-	Barcode string
+	Prefix string
 	Sequence int
 }
 

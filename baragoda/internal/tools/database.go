@@ -5,7 +5,7 @@ import (
 )
 
 type BarcodeGroup struct {
-	Barcode string
+	Prefix string
 	Sequence int
 }
 
@@ -13,6 +13,7 @@ type DatabaseInterface interface {
 	GetBarcodeGroups() *[]BarcodeGroup
 	GetBarcodeGroup(barcode string) *BarcodeGroup
 	CreateBarcode(barcode string) *BarcodeGroup
+	CreateBarcodeGroup(prefix string, sequence int) *BarcodeGroup
 	SetupDatabase() error
 }
 

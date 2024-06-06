@@ -11,10 +11,17 @@ func Handler(r *chi.Mux) {
 	r.Route("/barcode_groups", func(r chi.Router) {
 
 		r.Get("/", GetBarcodeGroups)
+		r.Post("/new", CreateBarcodeGroup)
 
 		r.Route("/{barcodeGroup}", func(r chi.Router) {
-			r.Get("/", GetBarcode)
-			r.Get("/new", CreateBarcode)
+			r.Get("/", GetBarcodeGroupByName)
+		})
+	})
+
+	r.Route("/barcodes", func(r chi.Router) {
+		r.Route("/{prefix}", func(r chi.Router) {
+			r.Post("/new", CreateBarcode)
+			r.Get("/last", GetLastBarcode)
 		})
 	})
 }

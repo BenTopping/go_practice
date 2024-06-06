@@ -1,9 +1,9 @@
 package handlers
 
 import (
+	"net/http"
 	"encoding/json"
 	"fmt"
-	"net/http"
 
 	"github.com/BenTopping/go_practice/baragoda/api"
 	"github.com/BenTopping/go_practice/baragoda/internal/tools"
@@ -11,13 +11,13 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-func CreateBarcode(w http.ResponseWriter, r *http.Request) {
+func GetBarcodeGroupByName(w http.ResponseWriter, r *http.Request) {
 	var err error
 
-	prefixParam := chi.URLParam(r, "prefix")
+	barcodeGroupParam := chi.URLParam(r, "barcodeGroup")
 
-	if prefixParam == "" {
-		api.RequestErrorHandler(w, fmt.Errorf("a barcode group prefix is required"))
+	if barcodeGroupParam == "" {
+		api.RequestErrorHandler(w, fmt.Errorf("a barcode group is required"))
 		return
 	}
 
@@ -28,17 +28,16 @@ func CreateBarcode(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var barcodeGroup *tools.BarcodeGroup = (*database).CreateBarcode(prefixParam)
+	var barcodeGroup *tools.BarcodeGroup = (*database).GetBarcodeGroup(barcodeGroupParam)
 	if barcodeGroup == nil {
-		api.NotFoundErrorHandler(w, fmt.Errorf("barcode group %s not found", prefixParam))
+		api.NotFoundErrorHandler(w, fmt.Errorf("barcode group %s not found", barcodeGroupParam))
 		return
 	}
 
-	var combinedBarcode string = fmt.Sprintf("%s-%d", (*barcodeGroup).Prefix, (*barcodeGroup).Sequence)
-
-	var response = api.CreateBarcodeResponse{
+	var response = api.BarcodeGroupResponse{
 		Code: http.StatusOK,
-		Barcode: combinedBarcode,
+		Prefix: (*barcodeGroup).Prefix,
+		Sequence: (*barcodeGroup).Sequence,
 	}
 
 	w.Header().Set("Content-Type", "application/json")

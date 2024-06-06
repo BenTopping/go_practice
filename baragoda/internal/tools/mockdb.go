@@ -4,15 +4,15 @@ type mockDB struct {}
 
 var mockBarcodeGroup= map[string]BarcodeGroup{
 	"barcode": {
-		Barcode: "barcode",
+		Prefix: "barcode",
 		Sequence: 1,
 	},
 	"sqpd": {
-		Barcode: "sqpd",
+		Prefix: "sqpd",
 		Sequence: 10,
 	},
 	"test": {
-		Barcode: "test",
+		Prefix: "test",
 		Sequence: 100,
 	},
 }
@@ -25,6 +25,17 @@ func (d *mockDB) CreateBarcode(barcodeGroup string) *BarcodeGroup {
 
 	barcodeGroupData.Sequence++
 	mockBarcodeGroup[barcodeGroup] = barcodeGroupData
+
+	return &barcodeGroupData
+}
+
+
+func (d *mockDB) CreateBarcodeGroup(prefix string, sequence int) *BarcodeGroup {
+	barcodeGroupData := BarcodeGroup{
+		Prefix: prefix,
+		Sequence: sequence,
+	}
+	mockBarcodeGroup[prefix] = barcodeGroupData
 
 	return &barcodeGroupData
 }
