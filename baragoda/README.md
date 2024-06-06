@@ -14,9 +14,9 @@ The servers default port is `8080`.
 
 <summary><code>GET</code>  <code><b>/barcode_groups</b></code> Returns a list of all barcode groups</summary>
 
-<summary><code>GET</code>  <code><b>/barcode_groups/{barcode_group_id}</b></code> Returns a barcode group by ID</summary>
+<summary><code>GET</code>  <code><b>/barcode_groups/{barcode_group_prefix}</b></code> Returns a barcode group by prefix</summary>
 
-<summary><code>POST</code> <code><b>/barcode_groups/{barcode_group_id}/new</b></code> Returns a unique barcode from a barcode group</summary>
+<summary><code>POST</code> <code><b>/barcode_groups/{barcode_group_prefix}/new</b></code> Takes a prefix and sequence and creates a new barcode group </summary>
 
 <summary><code>POST</code> <code><b>/barcodes/{barcode_group_prefix}/new</b></code> Returns a unique barcode from a barcode group given its prefix</summary>
 
