@@ -28,13 +28,13 @@ func CreateBarcode(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var barcodeGroup *tools.BarcodeGroup = (*database).CreateBarcode(prefixParam)
-	if barcodeGroup == nil {
-		api.NotFoundErrorHandler(w, fmt.Errorf("barcode group %s not found", prefixParam))
+	barcodeGroup, err := (*database).CreateBarcode(prefixParam)
+	if err != nil {
+		api.NotFoundErrorHandler(w, err)
 		return
 	}
 
-	var combinedBarcode string = fmt.Sprintf("%s-%d", (*barcodeGroup).Prefix, (*barcodeGroup).Sequence)
+	var combinedBarcode string = fmt.Sprintf("%s-%d", barcodeGroup.Prefix, barcodeGroup.Sequence)
 
 	var response = api.CreateBarcodeResponse{
 		Code: http.StatusOK,

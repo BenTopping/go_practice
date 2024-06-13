@@ -2,7 +2,23 @@
 
 A partial rewrite in Go of The Wellcome Sanger Institute's [Baracoda](https://github.com/sanger/baracoda).
 
-## Running the server
+## Setup the database
+
+The server uses a MySQL database to store barcode groups and barcodes. To setup the database, run the following commands:
+
+Create the database
+```sh
+mysql -u root -p
+```
+```sql
+CREATE SCHEMA baragoda_dev DEFAULT CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```
+Run the schema script
+```sh
+mysql -u root -p baragoda_dev < scripts/db/schema.sql
+```
+
+## Run the server
 
 To run the server, execute:
 ```sh

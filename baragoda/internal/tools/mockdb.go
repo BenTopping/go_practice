@@ -33,7 +33,7 @@ func (d *mockDB) CreateBarcode(barcodeGroup string) *BarcodeGroup {
 func (d *mockDB) CreateBarcodeGroup(prefix string, sequence int) *BarcodeGroup {
 	barcodeGroupData := BarcodeGroup{
 		Prefix: prefix,
-		Sequence: sequence,
+		Sequence: int64(sequence),
 	}
 	mockBarcodeGroup[prefix] = barcodeGroupData
 
