@@ -45,7 +45,12 @@ func CreateBarcodeGroup(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var barcodeGroup *tools.BarcodeGroup = (*database).CreateBarcodeGroup(*t.Prefix, *t.Sequence)
+	barcodeGroup, err := (*database).CreateBarcodeGroup(*t.Prefix, *t.Sequence)
+	if err != nil {
+		api.InternalErrorHandler(w)
+		return
+	}
+
 	if barcodeGroup == nil {
 		api.InternalErrorHandler(w)
 		return

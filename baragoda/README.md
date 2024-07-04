@@ -55,3 +55,9 @@ Getting the last barcode from a barcode group with the prefix sqpd
 ```sh
 curl --location 'http://localhost:8080/barcodes/sqpd/last'
 ```
+
+### TODO
+
+- [ ] General testing
+- [ ] Dockerize the application
+- [ ] internal/handlers/create_barcode_group.go should return an appropriate error message when the barcode group already exists

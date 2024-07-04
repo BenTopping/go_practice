@@ -28,7 +28,11 @@ func GetBarcodeGroupByName(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var barcodeGroup *tools.BarcodeGroup = (*database).GetBarcodeGroup(barcodeGroupParam)
+	barcodeGroup, err := (*database).GetBarcodeGroup(barcodeGroupParam)
+	if err != nil {
+		api.InternalErrorHandler(w)
+		return
+	}
 	if barcodeGroup == nil {
 		api.NotFoundErrorHandler(w, fmt.Errorf("barcode group %s not found", barcodeGroupParam))
 		return

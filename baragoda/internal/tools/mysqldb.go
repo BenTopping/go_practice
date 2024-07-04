@@ -38,17 +38,17 @@ func (d *Mysql) SetupDatabase() (*Mysql, error) {
 	return &Mysql{ db }, err
 }
 
-func (m *Mysql) CreateBarcode(barcodeGroup string) (*BarcodeGroup, error) {
+func (m *Mysql) CreateBarcode(prefix string) (*BarcodeGroup, error) {
 	var bg BarcodeGroup
 
 	// Check the barcode group exists
-	row := m.db.QueryRow("SELECT * FROM barcode_group WHERE prefix = ?", barcodeGroup)
+	row := m.db.QueryRow("SELECT * FROM barcode_group WHERE prefix = ?", prefix)
 	if err := row.Scan(&bg.Id, &bg.Prefix, &bg.Sequence, &bg.created_at); err != nil {
 		if err == sql.ErrNoRows {
 			// If no barcode group found, return an error
-			return nil, fmt.Errorf("barcode group %s not found", barcodeGroup)
+			return nil, fmt.Errorf("barcode group %s not found", prefix)
 		}
-		return &bg, fmt.Errorf("createBarcode %s: %v", barcodeGroup, err)
+		return &bg, fmt.Errorf("createBarcode %s: %v", prefix, err)
 	}
 
 	// Increase the sequence number
@@ -63,14 +63,63 @@ func (m *Mysql) CreateBarcode(barcodeGroup string) (*BarcodeGroup, error) {
 	return &bg, nil
 }
 
-func (d *Mysql) CreateBarcodeGroup(prefix string, sequence int) (*BarcodeGroup) {
-	return nil
+func (m *Mysql) CreateBarcodeGroup(prefix string, sequence int) (*BarcodeGroup, error) {
+	var bg BarcodeGroup
+
+	_, err := m.db.Exec("INSERT INTO barcode_group (prefix, sequence) VALUES (?, ?)", prefix, sequence)
+    if err != nil {
+        return nil, fmt.Errorf("failed to create barcode group: %v", err)
+    }
+
+	row := m.db.QueryRow("SELECT * FROM barcode_group WHERE prefix = ?", prefix)
+    if err := row.Scan(&bg.Id, &bg.Prefix, &bg.Sequence, &bg.created_at); err != nil {
+		if err == sql.ErrNoRows {
+			// If no barcode group found, return an error
+			return nil, fmt.Errorf("barcode group %s not found", prefix)
+		}
+		return &bg, fmt.Errorf("createBarcodeGroup %s: %v", prefix, err)
+	}
+
+    return &bg, nil
 }
 
-func (d *Mysql) GetBarcodeGroup(barcode string) (*BarcodeGroup) {
-	return nil
+func (m *Mysql) GetBarcodeGroup(prefix string) (*BarcodeGroup, error) {
+	var bg BarcodeGroup
+
+	// Check the barcode group exists
+	row := m.db.QueryRow("SELECT * FROM barcode_group WHERE prefix = ?", prefix)
+	if err := row.Scan(&bg.Id, &bg.Prefix, &bg.Sequence, &bg.created_at); err != nil {
+		if err == sql.ErrNoRows {
+			// If no barcode group found, return an error
+			return nil, nil
+		}
+		return &bg, fmt.Errorf("getBarcodeGroup %s: %v", prefix, err)
+	}
+
+	return &bg, nil
 }
 
-func (d *Mysql) GetBarcodeGroups() (*[]BarcodeGroup) {
-	return nil
+func (m *Mysql) GetBarcodeGroups() (*[]BarcodeGroup, error) {
+	var barcodeGroups []BarcodeGroup
+	rows, err := m.db.Query("SELECT * FROM barcode_group")
+
+	if err != nil {
+		return nil, fmt.Errorf("getBarcodeGroups: %v", err)
+	}
+
+	defer rows.Close()
+
+	for rows.Next() {
+		var bg BarcodeGroup
+		if err := rows.Scan(&bg.Id, &bg.Prefix, &bg.Sequence, &bg.created_at); err != nil {
+			return nil, fmt.Errorf("getBarcodeGroups: %v", err)
+		}
+		barcodeGroups = append(barcodeGroups, bg)
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, fmt.Errorf("getBarcodeGroups: %v", err)
+	}
+
+	return &barcodeGroups, nil
 }

@@ -28,7 +28,11 @@ func GetLastBarcode(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var barcodeGroup *tools.BarcodeGroup = (*database).GetBarcodeGroup(prefixParam)
+	barcodeGroup, err := (*database).GetBarcodeGroup(prefixParam)
+	if err != nil {
+		api.InternalErrorHandler(w)
+		return
+	}
 	if barcodeGroup == nil {
 		api.NotFoundErrorHandler(w, fmt.Errorf("barcode group %s not found", prefixParam))
 		return

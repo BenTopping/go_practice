@@ -12,10 +12,10 @@ type BarcodeGroup struct {
 }
 
 type DatabaseInterface interface {
-	GetBarcodeGroups() *[]BarcodeGroup
-	GetBarcodeGroup(barcode string) *BarcodeGroup
+	GetBarcodeGroups() (*[]BarcodeGroup, error)
+	GetBarcodeGroup(barcode string) (*BarcodeGroup, error)
 	CreateBarcode(barcode string) (*BarcodeGroup, error)
-	CreateBarcodeGroup(prefix string, sequence int) *BarcodeGroup
+	CreateBarcodeGroup(prefix string, sequence int) (*BarcodeGroup, error)
 	SetupDatabase() (*Mysql, error)
 }
 

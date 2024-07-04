@@ -19,7 +19,12 @@ func GetBarcodeGroups(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var barcodeGroups *[]tools.BarcodeGroup = (*database).GetBarcodeGroups()
+	barcodeGroups, err := (*database).GetBarcodeGroups()
+
+	if err != nil {
+		api.InternalErrorHandler(w)
+		return
+	}
 
 	var response = api.BarcodeGroupsResponse{
 		Code: http.StatusOK,
