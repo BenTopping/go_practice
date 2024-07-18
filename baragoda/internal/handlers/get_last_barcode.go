@@ -40,7 +40,7 @@ func GetLastBarcode(w http.ResponseWriter, r *http.Request) {
 
 	var combinedBarcode string = fmt.Sprintf("%s-%d", (*barcodeGroup).Prefix, (*barcodeGroup).Sequence)
 
-	var response = api.CreateBarcodeResponse{
+	var response = api.LastBarcodeResponse{
 		Code: http.StatusOK,
 		Barcode: combinedBarcode,
 	}

@@ -34,7 +34,7 @@ The servers default port is `8080`.
 
 <summary><code>POST</code> <code><b>/barcode_groups/{barcode_group_prefix}/new</b></code> Takes a prefix and sequence and creates a new barcode group </summary>
 
-<summary><code>POST</code> <code><b>/barcodes/{barcode_group_prefix}/new</b></code> Returns a unique barcode from a barcode group given its prefix</summary>
+<summary><code>POST</code> <code><b>/barcodes/{barcode_group_prefix}/new</b></code> Takes a count param and returns a list of unique barcodes from a barcode group given its prefix</summary>
 
 <summary><code>GET</code>  <code><b>/barcodes/{barcode_group_prefix}/last</b></code> Returns the last barcode from a barcode group</summary>
 
@@ -48,7 +48,7 @@ curl --header "Content-Type: application/json" --request POST --data '{"sequence
 
 Creating a new barcode from a barcode group with the prefix sqpd
 ```sh
-curl --location --request POST 'http://localhost:8080/barcodes/sqpd/new'
+curl --header "Content-Type: application/json" --request POST --data '{"count": "5"}' --location http://localhost:8080/barcodes/sqpd/new
 ```
 
 Getting the last barcode from a barcode group with the prefix sqpd

@@ -38,7 +38,7 @@ func (d *Mysql) SetupDatabase() (*Mysql, error) {
 	return &Mysql{ db }, err
 }
 
-func (m *Mysql) CreateBarcode(prefix string) (*BarcodeGroup, error) {
+func (m *Mysql) CreateBarcode(prefix string, count int) (*BarcodeGroup, error) {
 	var bg BarcodeGroup
 
 	// Check the barcode group exists
@@ -52,7 +52,7 @@ func (m *Mysql) CreateBarcode(prefix string) (*BarcodeGroup, error) {
 	}
 
 	// Increase the sequence number
-	bg.Sequence++
+	bg.Sequence += int64(count)
 	// Update the sequence number in the database
 	_, err := m.db.Exec("UPDATE barcode_group SET sequence = ? WHERE id = ?", bg.Sequence, bg.Id)
 	if err != nil {

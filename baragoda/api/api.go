@@ -11,9 +11,14 @@ type BarcodeParams struct {
 	Barcode string
 }
 
-type CreateBarcodeResponse struct {
+type LastBarcodeResponse struct {
 	Code int
 	Barcode string
+}
+
+type CreateBarcodeResponse struct {
+	Code int
+	Barcodes []string
 }
 
 type BarcodeGroupResponse struct {
