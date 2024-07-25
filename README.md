@@ -9,3 +9,5 @@ Code written while working through the go.dev tutorials.
 - baragoda
 A partial rewrite in Go of The Wellcome Sanger Institute's [Baracoda](https://github.com/sanger/baracoda).
 
+- goflag
+A lightweight feature flagging application.

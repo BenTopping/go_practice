@@ -1,0 +1,17 @@
+-- To create the database use the following command
+-- CREATE SCHEMA goflag_dev DEFAULT CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+CREATE TABLE flag_group (
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY
+, name VARCHAR(32) NOT NULL UNIQUE KEY
+, created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE flag (
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY
+, name VARCHAR(32) NOT NULL UNIQUE KEY
+, enabled BOOL NOT NULL DEFAULT 0
+, created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+, flag_group_id INT NOT NULL
+, CONSTRAINT fk_flag_group_id FOREIGN KEY (flag_group_id) REFERENCES flag_group(id)
+);
