@@ -1,4 +1,4 @@
-# Baragoda
+# Goflag
 
 A lightweight feature flagging application.
 
