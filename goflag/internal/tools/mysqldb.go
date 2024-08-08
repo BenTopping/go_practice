@@ -67,10 +67,9 @@ func (m *Mysql) GetFlags(flag_group_name string) (*[]Flag, error) {
 	var fg FlagGroup
 	var flags []Flag
 
-	fmt.Println("flag_group_name: ", flag_group_name)
 	
 	// Check the flag group exists
-	row := m.db.QueryRow("SELECT * FROM flag WHERE name = ?", flag_group_name)
+	row := m.db.QueryRow("SELECT * FROM flag_group WHERE name = ?", flag_group_name)
 	if err := row.Scan(&fg.Id, &fg.Name, &fg.created_at); err != nil {
 		if err == sql.ErrNoRows {
 			// If no barcode group found, return an error

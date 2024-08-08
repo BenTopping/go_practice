@@ -1,5 +1,4 @@
 {{ $flagGroups := .FlagGroups }}
-{{ $getFlags := .GetFlags }}
 
 <!DOCTYPE html>
 <html>
@@ -21,7 +20,14 @@
             <div class="flaggroup">
                 <span class="flaggroup-btn" onclick="showFlagGroupDropdown({{ $flagGroup.Id }})" >{{ $flagGroup.Name }}</span>
                 <div id="flaggroup-dropdown-{{ $flagGroup.Id }}" class="flaggroup-dropdown">
-                    <span>Dropdown!</span>
+                    <div class="flaggroup-data">
+                        <span>ID: {{ $flagGroup.Id }} </span>  
+                        <span>Name: {{ $flagGroup.Name }}</span>             
+                        <span>Flags:</span>
+                        {{ range $flag := $flagGroup.Flags }}
+                            <span>{{ $flag.Name }}</span>
+                        {{ end}}
+                    </div>
                 </div>
             </div>
         {{ end }}

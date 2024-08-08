@@ -45,9 +45,17 @@ body{
 
 .flaggroup {
     position: relative;
-    display: inline-block;
+    display: inline-block;;
     border-bottom: 1px solid #4e4e4e;
     padding: 16px;
+}
+
+.flaggroup-data {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0px 16px;
+    border-left: 1px solid #4e4e4e;
 }
 
 .flaggroup-btn {

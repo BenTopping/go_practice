@@ -20,6 +20,14 @@ func GetIndexPage(w http.ResponseWriter, r *http.Request) {
 	}
 
 	flagGroups, err := (*database).GetFlagGroups()
+
+	for i, flagGroup := range *flagGroups {
+		(*flagGroups)[i].Flags, err = (*database).GetFlags(flagGroup.Name)
+		if err != nil {
+			api.InternalErrorHandler(w)
+			return
+		}
+	}
 		
 	data := map[string]interface{}{
 		"FlagGroups": flagGroups,

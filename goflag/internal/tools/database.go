@@ -16,6 +16,7 @@ type FlagGroup struct {
 	Id int64
 	Name string
 	created_at []uint8
+	Flags *[]Flag
 }
 
 // DatabaseInterface is an interface that defines the methods that a database must implement
