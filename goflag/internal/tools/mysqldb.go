@@ -62,3 +62,42 @@ func (m *Mysql) GetFlagGroups() (*[]FlagGroup, error) {
 
 	return &flagGroups, nil
 }
+
+func (m *Mysql) GetFlags(flag_group_name string) (*[]Flag, error) {
+	var fg FlagGroup
+	var flags []Flag
+
+	fmt.Println("flag_group_name: ", flag_group_name)
+	
+	// Check the flag group exists
+	row := m.db.QueryRow("SELECT * FROM flag WHERE name = ?", flag_group_name)
+	if err := row.Scan(&fg.Id, &fg.Name, &fg.created_at); err != nil {
+		if err == sql.ErrNoRows {
+			// If no barcode group found, return an error
+			return nil, fmt.Errorf("flag group %s not found", flag_group_name)
+		}
+		return nil, fmt.Errorf("GetFlags %s: %v", flag_group_name, err)
+	}
+
+	// Get the flags for the flag group
+	rows, err := m.db.Query("SELECT * FROM flag WHERE flag_group_id = ?", fg.Id)
+	if err != nil {
+		return nil, fmt.Errorf("GetFlags: %v", err)
+	}
+
+	defer rows.Close()
+
+	for rows.Next() {
+		var f Flag
+		if err := rows.Scan(&f.Id, &f.Name, &f.Enabled, &f.created_at, &f.flag_group_id); err != nil {
+			return nil, fmt.Errorf("GetFlags: %v", err)
+		}
+		flags = append(flags, f)
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, fmt.Errorf("GetFlags: %v", err)
+	}
+
+	return &flags, nil
+}

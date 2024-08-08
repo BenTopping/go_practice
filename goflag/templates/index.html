@@ -1,16 +1,30 @@
-{{ $title := .Title }}
 {{ $flagGroups := .FlagGroups }}
+{{ $getFlags := .GetFlags }}
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>{{ $title }}</title>
+    <title>Goflag</title>
+    <link rel="stylesheet" href="/css/index.css">
+    <script src="/js/index.js"></script>
 </head>
+<header>
+
+</header>
 <body>
-    <h1>{{ $title }}</h1>
-    <p>Flags groups:</p>
-    {{ range $flagGroup := $flagGroups }}
-        <p>{{ $flagGroup.Name }}</p>
-    {{ end }}
+    <div class="container">
+        <div class="navbar">
+            <h1>Goflag</h1>
+            <p>A lightweight feature flagging application</p>
+        </div>
+        {{ range $flagGroup := $flagGroups }}
+            <div class="flaggroup">
+                <span class="flaggroup-btn" onclick="showFlagGroupDropdown({{ $flagGroup.Id }})" >{{ $flagGroup.Name }}</span>
+                <div id="flaggroup-dropdown-{{ $flagGroup.Id }}" class="flaggroup-dropdown">
+                    <span>Dropdown!</span>
+                </div>
+            </div>
+        {{ end }}
+    </div>
 </body>
 </html>

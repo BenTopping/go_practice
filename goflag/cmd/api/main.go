@@ -14,6 +14,10 @@ func main() {
 	var r *chi.Mux = chi.NewRouter()
 	handlers.Handler(r)
 
+	// Handle static assets
+	r.Handle("/css/*", http.StripPrefix("/css/", http.FileServer(http.Dir("./templates/css"))))
+	r.Handle("/js/*", http.StripPrefix("/js/", http.FileServer(http.Dir("./templates/js"))))
+
 	fmt.Println("Starting server on port 8080")
 
 	err := http.ListenAndServe("localhost:8080", r)

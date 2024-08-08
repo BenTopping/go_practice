@@ -22,9 +22,9 @@ func GetIndexPage(w http.ResponseWriter, r *http.Request) {
 	flagGroups, err := (*database).GetFlagGroups()
 		
 	data := map[string]interface{}{
-		"Title": "Home",
 		"FlagGroups": flagGroups,
 	}
+
 	tmpl, err := template.ParseFiles("templates/index.html")
 	if err != nil {
 		log.Error(err)

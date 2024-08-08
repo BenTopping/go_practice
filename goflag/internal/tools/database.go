@@ -7,7 +7,7 @@ import (
 type Flag struct {
 	Id int64
 	Name string
-	enabled int64
+	Enabled int64
 	created_at []uint8
 	flag_group_id int64
 }
@@ -21,6 +21,7 @@ type FlagGroup struct {
 // DatabaseInterface is an interface that defines the methods that a database must implement
 type DatabaseInterface interface {
 	GetFlagGroups() (*[]FlagGroup, error)
+	GetFlags(flag_group_name string) (*[]Flag, error)
 	SetupDatabase() (*Mysql, error)
 }
 
