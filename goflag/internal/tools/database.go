@@ -7,7 +7,8 @@ import (
 type Flag struct {
 	Id int64
 	Name string
-	Enabled int64
+	Description string
+	Enabled bool
 	created_at []uint8
 	flag_group_id int64
 }

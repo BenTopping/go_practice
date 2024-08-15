@@ -88,7 +88,7 @@ func (m *Mysql) GetFlags(flag_group_name string) (*[]Flag, error) {
 
 	for rows.Next() {
 		var f Flag
-		if err := rows.Scan(&f.Id, &f.Name, &f.Enabled, &f.created_at, &f.flag_group_id); err != nil {
+		if err := rows.Scan(&f.Id, &f.Name, &f.Description, &f.Enabled, &f.created_at, &f.flag_group_id); err != nil {
 			return nil, fmt.Errorf("GetFlags: %v", err)
 		}
 		flags = append(flags, f)
