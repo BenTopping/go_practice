@@ -31,7 +31,7 @@ func part1() {
 	// File reader helper
 	reader := bufio.NewReader(file)
 
-	// Create the two lists from the
+	// Create the two lists from the file
 	var left_list, right_list = make([]int, 0), make([]int, 0)
 	for {
 		line, _, err := reader.ReadLine()
@@ -80,7 +80,7 @@ func part2() {
 	// File reader helper
 	reader := bufio.NewReader(file)
 
-	// Create the a left list and a right map
+	// Create a left list and a right map
 	var left_list, right_dict = make([]int, 0), make(map[int]int)
 	for {
 		line, _, err := reader.ReadLine()
@@ -96,7 +96,7 @@ func part2() {
 		}
 		// Append the left value to the left list
 		left_list = append(left_list, l)
-		// Add 1 to the number of occurences for that value in a dict
+		// Add 1 to the number of occurences for that value in the right dict
 		right_dict[r] = right_dict[r] + 1
 	}
 
