@@ -17,11 +17,11 @@ func main() {
 
 func part1() {
 	// Read the input file
-	file, err := os.Open("inputs/day_1.txt")
+	file, err := os.Open("inputs/01.txt")
 
 	// If we don't have an input file return an error
 	if err != nil {
-		fmt.Println("Cannot find input file, please add your input file to inputs/day_1.txt")
+		fmt.Println("Cannot find input file, please add your input file to inputs/01.txt")
 		return
 	}
 
@@ -66,11 +66,11 @@ func part1() {
 
 func part2() {
 	// Read the input file
-	file, err := os.Open("inputs/day_1.txt")
+	file, err := os.Open("inputs/01.txt")
 
 	// If we don't have an input file return an error
 	if err != nil {
-		fmt.Println("Cannot find input file, please add your input file to inputs/day_1.txt")
+		fmt.Println("Cannot find input file, please add your input file to inputs/01.txt")
 		return
 	}
 

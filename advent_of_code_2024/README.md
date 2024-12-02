@@ -3,5 +3,5 @@ This directory contains my attempts at the [Advent of Code 2024](https://advento
 
 Basic usage
 ```sh
-go run day_1.go
+go run 01/main.go
 ```
