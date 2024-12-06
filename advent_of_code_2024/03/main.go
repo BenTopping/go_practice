@@ -19,7 +19,7 @@ func part1() {
 
 	// If we don't have an input file return an error
 	if err != nil {
-		fmt.Println("Cannot find input file, please add your input file to inputs/02.txt")
+		fmt.Println("Cannot find input file, please add your input file to inputs/03.txt")
 		return
 	}
 
@@ -48,7 +48,7 @@ func part2() {
 
 	// If we don't have an input file return an error
 	if err != nil {
-		fmt.Println("Cannot find input file, please add your input file to inputs/02.txt")
+		fmt.Println("Cannot find input file, please add your input file to inputs/03.txt")
 		return
 	}
 
