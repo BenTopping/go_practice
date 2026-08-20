@@ -17,3 +17,6 @@ Solutions to the Go track of the [Exercism](https://exercism.org/tracks/go) codi
 
 - advent_of_code_2024
 My attempts at the [Advent of Code 2024](https://adventofcode.com/2024) challenges.
+
+- json_parser
+A simple JSON parser written in Go with the aim of learning about parsing and lexing.
