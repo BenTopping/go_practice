@@ -18,7 +18,9 @@ const (
 	STRING        = "STRING"
 	// TODO: Handle +,-,e,i in numbers
 	NUMBER        = "NUMBER"
-	// TODO: true, false, null
+	TRUE          = "TRUE"
+	FALSE		  = "FALSE"
+	NULL          = "NULL"
 )
 
 type Token struct {
@@ -79,6 +81,23 @@ func buildTokens(bslice []byte) ([]Token, error) {
 				}
 				tokens = append(tokens, Token{tokenType: NUMBER, value: f})
 
+			} else if regexp.MustCompile(`[a-zA-Z]`).MatchString(ch){
+				keyword := ch
+				pos++
+				for regexp.MustCompile(`[a-zA-Z]`).MatchString(string(bslice[pos])) {
+					keyword += string(bslice[pos])
+					pos++
+				}
+				switch keyword {
+					case "true": 
+						tokens = append(tokens, Token{tokenType: TRUE, value: true})
+					case "false":
+						tokens = append(tokens, Token{tokenType: FALSE, value: false})
+					case "null":
+						tokens = append(tokens, Token{tokenType: NULL, value: nil})
+					default:
+						err = fmt.Errorf("Unknown keyword given %s", keyword)
+				}
 			} else {
 				err = fmt.Errorf("Unknown character %s", ch)
 				tokens = make([]Token, 0)

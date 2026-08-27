@@ -5,8 +5,7 @@ func Parser(tokens []Token) (interface{}, []Token) {
 
 	if t.tokenType == LEFT_BRACKET {
 		return parseArray(tokens[1:])
-	}
-	if t.tokenType == LEFT_BRACE {
+	} else if t.tokenType == LEFT_BRACE {
 		return parseObject(tokens[1:])
 	} else {
 		return t.value, tokens[1:]
