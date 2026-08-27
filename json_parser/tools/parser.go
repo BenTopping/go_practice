@@ -1,25 +1,19 @@
 package tools
 
-import (
-	// "strings"
-	// "bufio"
-)
-
-
-func Parser(tokens []Token) (map[string]interface{}, []Token) {
+func Parser(tokens []Token) (interface{}, []Token) {
 	t := tokens[0]
 
-	// if t.tokenType == LEFT_BRACKET {
-	// 	return parseArray(tokens[1:])
-	// }
+	if t.tokenType == LEFT_BRACKET {
+		return parseArray(tokens[1:])
+	}
 	if t.tokenType == LEFT_BRACE {
 		return parseObject(tokens[1:])
 	} else {
-		return map[string]interface{}{"value": t.value},  tokens[1:]
+		return t.value,  tokens[1:]
 	}
 }
 
-func parseObject(tokens []Token) (map[string]interface{}, []Token) {
+func parseObject(tokens []Token) (interface{}, []Token) {
 	parsedObj := make(map[string]interface{})
 
 	t := tokens[0]
@@ -28,8 +22,8 @@ func parseObject(tokens []Token) (map[string]interface{}, []Token) {
 	}
 
 	for true {
-		json_key := tokens[0]
-		if json_key.tokenType == STRING {
+		jsonKey := tokens[0]
+		if jsonKey.tokenType == STRING {
 			// Move to the next token
 			tokens = tokens[1:]
 		} else {
@@ -40,10 +34,9 @@ func parseObject(tokens []Token) (map[string]interface{}, []Token) {
 			// We should error here as always expect colon to follow a key
 		}
 
-		var json_value map[string]interface{}
-		json_value, tokens = Parser(tokens[1:])
-
-		parsedObj[json_key.value] = json_value["value"]
+		jsonValue, remainingTokens := Parser(tokens[1:])
+		parsedObj[jsonKey.value] = jsonValue
+		tokens = remainingTokens
 
 		t = tokens[0]
 		if t.tokenType == RIGHT_BRACE {
@@ -60,6 +53,30 @@ func parseObject(tokens []Token) (map[string]interface{}, []Token) {
 	return parsedObj, nil
 }
 
-func parseArray(tokens []Token) {
+func parseArray(tokens []Token) (interface{}, []Token) {
+	parsedArray := make([]interface{}, 0)
 
+	t := tokens[0]
+	if t.tokenType == RIGHT_BRACKET { 
+		return parsedArray, tokens[1:]
+	}
+
+	for true {
+		var jsonValue interface{}
+		jsonValue, remainingTokens := Parser(tokens)
+		parsedArray = append(parsedArray, jsonValue)
+		tokens = remainingTokens
+
+		t = tokens[0]
+		if t.tokenType == RIGHT_BRACKET {
+			// We have finished this Array so we can return
+			return parsedArray, tokens[1:]
+		} else if t.tokenType != COMMA {
+			// We should error here as commas should always appear after key pairs
+		}
+		// Move forward to the next token
+		tokens = tokens[1:]
+	}
+
+	return parsedArray, nil
 }
