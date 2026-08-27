@@ -8,7 +8,7 @@ import (
 func main() {
 	var lexed_json []tools.Token
 	var err error
-	input_json := `{"str123":"str", "str1234": ["another_str", "anoth", "one_more"]}`
+	input_json := `{"str123":123, "str1234": ["another_str", "anoth", "one_more"]}`
 
 	// Lex
 	lexed_json, err = tools.Lexer(input_json)

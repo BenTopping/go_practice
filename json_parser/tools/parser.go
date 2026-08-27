@@ -9,7 +9,7 @@ func Parser(tokens []Token) (interface{}, []Token) {
 	if t.tokenType == LEFT_BRACE {
 		return parseObject(tokens[1:])
 	} else {
-		return t.value,  tokens[1:]
+		return t.value, tokens[1:]
 	}
 }
 
@@ -35,7 +35,11 @@ func parseObject(tokens []Token) (interface{}, []Token) {
 		}
 
 		jsonValue, remainingTokens := Parser(tokens[1:])
-		parsedObj[jsonKey.value] = jsonValue
+		key, ok := jsonKey.value.(string)
+		if !ok {
+			// Handle invalid object key.
+		}
+		parsedObj[key] = jsonValue
 		tokens = remainingTokens
 
 		t = tokens[0]
@@ -57,7 +61,7 @@ func parseArray(tokens []Token) (interface{}, []Token) {
 	parsedArray := make([]interface{}, 0)
 
 	t := tokens[0]
-	if t.tokenType == RIGHT_BRACKET { 
+	if t.tokenType == RIGHT_BRACKET {
 		return parsedArray, tokens[1:]
 	}
 

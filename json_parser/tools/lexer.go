@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"regexp"
+	"strconv"
 	"strings"
 )
 
@@ -15,12 +16,14 @@ const (
 	COLON         = "COLON"
 	COMMA         = "COMMA"
 	STRING        = "STRING"
-	// TODO: number, true, false, null
+	// TODO: Handle +,-,e,i in numbers
+	NUMBER        = "NUMBER"
+	// TODO: true, false, null
 )
 
 type Token struct {
 	tokenType string
-	value     string
+	value     interface{}
 }
 
 func buildTokens(bslice []byte) ([]Token, error) {
@@ -58,11 +61,24 @@ func buildTokens(bslice []byte) ([]Token, error) {
 			}
 			pos++
 			tokens = append(tokens, Token{tokenType: STRING, value: str})
-
 		default:
 			// If its not in a string and its whitespace, ignore it
 			if regexp.MustCompile(`\s`).MatchString(ch) {
 				pos++
+			// If its a number parse it as such
+			} else if regexp.MustCompile(`\d`).MatchString(ch) {
+				num := ch
+				pos++
+				for regexp.MustCompile(`\d`).MatchString(string(bslice[pos])) {
+					num += string(bslice[pos])
+					pos++
+				}
+				f, err := strconv.ParseFloat(num, 64)
+				if err != nil {
+					err = fmt.Errorf("Unable to convert integert %s", num)
+				}
+				tokens = append(tokens, Token{tokenType: NUMBER, value: f})
+
 			} else {
 				err = fmt.Errorf("Unknown character %s", ch)
 				tokens = make([]Token, 0)
